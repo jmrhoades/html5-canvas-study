@@ -4,6 +4,67 @@ function $ (element) {
 
 (function mine_game() {
 
+ImagesFactory = function () {
+    this.image = $('images-all');
+    this.get = function (request) {
+        switch(request) {
+            case 'normal':
+                return {
+                    x: 0,
+                    y: 0,
+                    xwidth: 400,
+                    ywidth: 400
+                };
+                break;
+
+            case 'hover':
+                return {
+                    x: 400,
+                    y: 0,
+                    xwidth: 400,
+                    ywidth: 400
+                };
+                break;
+
+            case 'flag':
+                return {
+                    x: 1600,
+                    y: 0,
+                    xwidth: 400,
+                    ywidth: 400
+                };
+                break;
+
+            case 'mine':
+                return {
+                    x: 1200,
+                    y: 0,
+                    xwidth: 400,
+                    ywidth: 400
+                };
+                break;
+
+            case 'number':
+                var r = [];
+                r.push({
+                    x: 800,
+                    y: 0,
+                    xwidth: 400,
+                    ywidth: 400,
+                });
+                for(var i = 0; i < 8; i++) {
+                    r.push({
+                        x: 2000 + i*400,
+                        y: 0,
+                        xwidth: 400,
+                        ywidth: 400,
+                    });
+                }
+                return r;
+        }
+    };
+}
+
 Vector = function (x, y) {
     this.x = x;
     this.y = y;
@@ -16,6 +77,7 @@ Vector = function (x, y) {
 Mine = function () {
     this.rows = $('rows').value || 10;
     this.cols = $('cols').value || 10;
+    this.imageFactory = new ImagesFactory();
     this.block_width = 30;
     this.mine_count = $('mines').value || 20;
     if(this.mine_count > this.rows*this.cols)
@@ -34,13 +96,25 @@ Mine = function () {
     
     this.draw_map(this.ctx);
     
-    console.log(this);
 };
 
 Mine.prototype.draw_map = function (ctx) {
     for(i=0; i<this.rows; i++){
         for(j=0; j<this.cols; j++){
+            /*
             ctx.strokeRect(
+                this.block_width*i + this.canvas_x_offset,
+                this.block_width*j + this.canvas_y_offset,
+                this.block_width,
+                this.block_width
+            );*/
+            image = this.imageFactory.get('normal');
+            ctx.drawImage(
+                this.imageFactory.image,
+                image.x,
+                image.y,
+                image.xwidth,
+                image.ywidth,
                 this.block_width*i + this.canvas_x_offset,
                 this.block_width*j + this.canvas_y_offset,
                 this.block_width,
@@ -63,77 +137,87 @@ Block = function (game, x, y) {
     // block coordenation
     this.coor = new Vector(x, y);
     
-    this.clicked = false;
+    this.revealed = false;
     this.flagged = false;
     this.over = false;
     this.mined = false;
     this.number = 0;
     this.neightboors;
     
-    this.write = function () {
-        to_write = '';
+    this.reveal = function () {
+        if(this.revealed) return;
+
+        this.revealed = true;
+        ctx = this.ref.ctx;
         if(this.mined)
-            to_write = 'B';
+            image = this.ref.imageFactory.get('mine');
         else
-            to_write = this.number;
-        this.ref.ctx.save();
-        this.ref.ctx.font = "25px Arial";
-        this.ref.ctx.fillStyle = 'blue';
-        this.ref.ctx.fillText(
-            to_write,
-            this.coor.x*this.ref.block_width + this.ref.canvas_x_offset + 5,
-            this.coor.y*this.ref.block_width + this.ref.canvas_y_offset + 25
+            image = this.ref.imageFactory.get('number')[this.number];
+
+        ctx.drawImage(
+            this.ref.imageFactory.image,
+            image.x,
+            image.y,
+            image.xwidth,
+            image.ywidth,
+            this.coor.x*this.ref.block_width + this.ref.canvas_x_offset,
+            this.coor.y*this.ref.block_width + this.ref.canvas_y_offset,
+            this.ref.block_width,
+            this.ref.block_width
         );
-        this.ref.ctx.restore();
-        this.clicked = true;
     }
     
     this.flag = function () {
         this.flagged = true;
-        to_write = 'F';
-        this.ref.ctx.save();
-        this.ref.ctx.font = "25px Arial";
-        this.ref.ctx.fillStyle = 'blue';
-        this.ref.ctx.fillText(
-            to_write,
-            this.coor.x*this.ref.block_width + this.ref.canvas_x_offset + 5,
-            this.coor.y*this.ref.block_width + this.ref.canvas_y_offset + 25
+        ctx = this.ref.ctx;
+        image = this.ref.imageFactory.get('flag');
+        ctx.drawImage(
+            this.ref.imageFactory.image,
+            image.x,
+            image.y,
+            image.xwidth,
+            image.ywidth,
+            this.coor.x*this.ref.block_width + this.ref.canvas_x_offset,
+            this.coor.y*this.ref.block_width + this.ref.canvas_y_offset,
+            this.ref.block_width,
+            this.ref.block_width
         );
-        this.ref.ctx.restore();
     }
     
     // highlight or no
     this.turn_on = function () {
-        if(this.clicked) return;
-        this.ref.ctx.save();
-        this.ref.ctx.fillStyle = 'black';
-        this.ref.ctx.fillRect(
+        if(this.revealed) return;
+        ctx = this.ref.ctx;
+        image = this.ref.imageFactory.get('hover');
+        ctx.drawImage(
+            this.ref.imageFactory.image,
+            image.x,
+            image.y,
+            image.xwidth,
+            image.ywidth,
             this.coor.x*this.ref.block_width + this.ref.canvas_x_offset,
             this.coor.y*this.ref.block_width + this.ref.canvas_y_offset,
             this.ref.block_width,
             this.ref.block_width
         );
-        this.ref.ctx.restore();
     }
     
     this.turn_off = function () {
-        this.ref.ctx.save();
-        this.ref.ctx.fillStyle = 'white';
-        this.ref.ctx.fillRect(
+        if(this.revealed) return;
+        image = this.ref.imageFactory.get('normal');
+        ctx = this.ref.ctx;
+        ctx.drawImage(
+            this.ref.imageFactory.image,
+            image.x,
+            image.y,
+            image.xwidth,
+            image.ywidth,
             this.coor.x*this.ref.block_width + this.ref.canvas_x_offset,
             this.coor.y*this.ref.block_width + this.ref.canvas_y_offset,
             this.ref.block_width,
             this.ref.block_width
         );
-        this.ref.ctx.strokeRect(
-            this.coor.x*this.ref.block_width + this.ref.canvas_x_offset,
-            this.coor.y*this.ref.block_width + this.ref.canvas_y_offset,
-            this.ref.block_width,
-            this.ref.block_width
-        );
-        this.ref.ctx.restore();
-        if(this.clicked)
-            this.write();
+        
         if(this.flagged)
             this.flag();
     }
@@ -176,27 +260,42 @@ Block.prototype.makeNeightboors = function (blocks) {
 }
 
 Block.prototype.revealNeightboors = function () {
-    // conta quantas bandeiras foram colocadas
-    var bombs = 0, wrong_mark = false;
-    for(n in this.neightboors){
-        if(this.neightboors[n].flagged){
-            bombs++;
-            if(!this.neightboors[n].mined)
-                wrong_mark = true;
+
+    var to_reveal = [];
+    var current;
+    to_reveal.push(this);
+
+    while(to_reveal.length > 0){
+        console.log('aidjaijd');
+        current = to_reveal.shift();
+
+        // conta quantas bandeiras foram colocadas
+        var bombs = 0, wrong_mark = false;
+        for(n in current.neightboors){
+            if(current.neightboors[n].flagged){
+                bombs++;
+                if(!current.neightboors[n].mined)
+                    wrong_mark = true;
+            }
+        }
+        
+        if(bombs >= current.number && wrong_mark){
+            this.ref.gameover();        // game over
+            return;
+        }
+        
+        if(bombs == current.number){
+            for(var n in current.neightboors){
+                // Empilha os proximos a serem revelados
+                if(current.neightboors[n].number == 0 && !current.neightboors[n].revealed)
+                    to_reveal.push(current.neightboors[n]);
+
+                if(!current.neightboors[n].mined)
+                    current.neightboors[n].reveal();
+            }
         }
     }
-    
-    if(bombs >= this.number && wrong_mark){
-        this.ref.gameover();        // game over
-        return;
-    }
-    
-    if(bombs == this.number){
-        for(n in this.neightboors){
-            if(!this.neightboors[n].mined)
-                this.neightboors[n].write();
-        }
-    }
+
 }
 
 Mine.prototype.mapCanvas = function(e) {
@@ -224,9 +323,11 @@ Mine.prototype.mapClick = function(e) {
         
     block = this.getBlockByCoor(mouse_coor);
     if(block != null){
-        if(!block.clicked){
-            block.clicked = true;
-            block.write();
+        if(!block.revealed){
+            block.reveal();
+            if(block.number == 0){
+                block.revealNeightboors();
+            }
         }
         else {
             block.revealNeightboors();
