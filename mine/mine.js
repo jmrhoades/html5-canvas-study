@@ -4,67 +4,6 @@ function $ (element) {
 
 (function mine_game() {
 
-ImagesFactory = function () {
-    this.image = $('images-all');
-    this.get = function (request) {
-        switch(request) {
-            case 'normal':
-                return {
-                    x: 0,
-                    y: 0,
-                    xwidth: 400,
-                    ywidth: 400
-                };
-                break;
-
-            case 'hover':
-                return {
-                    x: 400,
-                    y: 0,
-                    xwidth: 400,
-                    ywidth: 400
-                };
-                break;
-
-            case 'flag':
-                return {
-                    x: 1600,
-                    y: 0,
-                    xwidth: 400,
-                    ywidth: 400
-                };
-                break;
-
-            case 'mine':
-                return {
-                    x: 1200,
-                    y: 0,
-                    xwidth: 400,
-                    ywidth: 400
-                };
-                break;
-
-            case 'number':
-                var r = [];
-                r.push({
-                    x: 800,
-                    y: 0,
-                    xwidth: 400,
-                    ywidth: 400,
-                });
-                for(var i = 0; i < 8; i++) {
-                    r.push({
-                        x: 2000 + i*400,
-                        y: 0,
-                        xwidth: 400,
-                        ywidth: 400,
-                    });
-                }
-                return r;
-        }
-    };
-}
-
 Vector = function (x, y) {
     this.x = x;
     this.y = y;
@@ -77,7 +16,6 @@ Vector = function (x, y) {
 Mine = function () {
     this.rows = $('rows').value || 10;
     this.cols = $('cols').value || 10;
-    this.imageFactory = new ImagesFactory();
     this.block_width = 30;
     this.mine_count = $('mines').value || 20;
     if(this.mine_count > this.rows*this.cols)
@@ -91,6 +29,8 @@ Mine = function () {
     this.canvas_y_offset =
         (this.canvas_height - this.block_width*this.cols)/2;
     
+    this.imageFactory = new ImagesFactory(this.ctx);
+
     this.last_block_over;
     this.blocks = this.makeBlocks();
     
@@ -101,20 +41,9 @@ Mine = function () {
 Mine.prototype.draw_map = function (ctx) {
     for(i=0; i<this.rows; i++){
         for(j=0; j<this.cols; j++){
-            /*
-            ctx.strokeRect(
-                this.block_width*i + this.canvas_x_offset,
-                this.block_width*j + this.canvas_y_offset,
-                this.block_width,
-                this.block_width
-            );*/
             image = this.imageFactory.get('normal');
-            ctx.drawImage(
-                this.imageFactory.image,
-                image.x,
-                image.y,
-                image.xwidth,
-                image.ywidth,
+            this.imageFactory.draw(
+                image,
                 this.block_width*i + this.canvas_x_offset,
                 this.block_width*j + this.canvas_y_offset,
                 this.block_width,
@@ -136,88 +65,44 @@ Block = function (game, x, y) {
     
     // block coordenation
     this.coor = new Vector(x, y);
-    
-    this.revealed = false;
-    this.flagged = false;
-    this.over = false;
-    this.mined = false;
-    this.number = 0;
+ 
+    this.visited    = false;
+    this.revealed   = false;
+    this.flagged    = false;
+    this.over       = false;
+    this.mined      = false;
+    this.number     = 0;
     this.neightboors;
     
     this.reveal = function () {
         if(this.revealed) return;
 
         this.revealed = true;
-        ctx = this.ref.ctx;
         if(this.mined)
             image = this.ref.imageFactory.get('mine');
         else
             image = this.ref.imageFactory.get('number')[this.number];
 
-        ctx.drawImage(
-            this.ref.imageFactory.image,
-            image.x,
-            image.y,
-            image.xwidth,
-            image.ywidth,
-            this.coor.x*this.ref.block_width + this.ref.canvas_x_offset,
-            this.coor.y*this.ref.block_width + this.ref.canvas_y_offset,
-            this.ref.block_width,
-            this.ref.block_width
-        );
+        this.ref.imageFactory.drawBlock(image, this);
     }
     
     this.flag = function () {
         this.flagged = true;
-        ctx = this.ref.ctx;
         image = this.ref.imageFactory.get('flag');
-        ctx.drawImage(
-            this.ref.imageFactory.image,
-            image.x,
-            image.y,
-            image.xwidth,
-            image.ywidth,
-            this.coor.x*this.ref.block_width + this.ref.canvas_x_offset,
-            this.coor.y*this.ref.block_width + this.ref.canvas_y_offset,
-            this.ref.block_width,
-            this.ref.block_width
-        );
+        this.ref.imageFactory.drawBlock(image, this);
     }
     
     // highlight or no
     this.turn_on = function () {
         if(this.revealed) return;
-        ctx = this.ref.ctx;
         image = this.ref.imageFactory.get('hover');
-        ctx.drawImage(
-            this.ref.imageFactory.image,
-            image.x,
-            image.y,
-            image.xwidth,
-            image.ywidth,
-            this.coor.x*this.ref.block_width + this.ref.canvas_x_offset,
-            this.coor.y*this.ref.block_width + this.ref.canvas_y_offset,
-            this.ref.block_width,
-            this.ref.block_width
-        );
+        this.ref.imageFactory.drawBlock(image, this);
     }
     
     this.turn_off = function () {
         if(this.revealed) return;
         image = this.ref.imageFactory.get('normal');
-        ctx = this.ref.ctx;
-        ctx.drawImage(
-            this.ref.imageFactory.image,
-            image.x,
-            image.y,
-            image.xwidth,
-            image.ywidth,
-            this.coor.x*this.ref.block_width + this.ref.canvas_x_offset,
-            this.coor.y*this.ref.block_width + this.ref.canvas_y_offset,
-            this.ref.block_width,
-            this.ref.block_width
-        );
-        
+        this.ref.imageFactory.drawBlock(image, this);
         if(this.flagged)
             this.flag();
     }
@@ -390,6 +275,18 @@ Mine.prototype.getBlockByCoor = function (coor) {
         return this.blocks[row][col];
     else
         return null;
+}
+
+// TODO
+Mine.prototype.gameover = function () {
+    this.clear();
+    var div = document.createElement('div');
+    div.width = 400;
+    div.height = 400;
+    div.innerHTML = "GAME OVER";
+    div.style.fontWeight = '100px';
+    div.style.lineHeight = '400px';
+    $('canvas').appendChild(div);
 }
 
 }());
