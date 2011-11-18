@@ -1,0 +1,1307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- saved from url=(0056)http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Mathematics of Perspective Drawing</title>
+    <meta http-equiv="Content-Type" content="text/html">
+    <meta name="author" content="Andrejs Treibergs">
+    <meta name="keywords" content="perspective, drawing, linear">
+<style type="text/css"> 
+body{  font-size: 18px;
+       background: white;
+       color: maroon; } 
+blockquote{ color: teal } 
+var{   color: maroon; } 
+hr{    color:olive; } 
+h1,h2,h3{font-size: x-large;} 
+em{    color: green; } 
+em var{color: green; }
+
+dl{    background: beige;
+       color: maroon;
+       font-size: smaller; } 
+.style2{ background: beige; width: 450px} 
+pre{ font-style: italic;
+     font-family: serif} 
+a:link {color: red;} 
+a:active {color: purple;} 
+a:visited {color: olive;}
+.style1{margin: 10%; background: white} 
+</style> 
+<script language="JavaScript1.2" type="text/javascript">
+ <!-- hide from other browsers
+      function NETorIE(Ntxt,Itxt)
+       {
+         manufac=navigator.appName
+         version=navigator.appVersion
+         if(manufac.indexOf('Microsoft')>=0)
+                document.write(Itxt)
+         if(manufac.indexOf('Netscape')>=0)
+                document.write(Ntxt)
+        }
+ // end hiding --> 
+</script>
+
+</head> 
+<body> 
+<p> 
+</p><p> 
+</p><table align="CENTER" border="0" cellspacing="0" cellpadding="8" width="70%" bgcolor="darkkhaki"> 
+   <tbody><tr align="CENTER">
+       <th colspan="3" align="CENTER">
+       <font color="#FFFFFF" size="+2">University of Utah  § Department of Mathematics</font>
+       </th>
+   </tr> 
+   <tr>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      <td valign="TOP" align="CENTER">
+      <table align="CENTER" border="0" cellspacing="8" cellpadding="4" width="80%" bgcolor="#A52A2A">
+         <tbody><tr>
+            <td align="CENTER">
+            <a href="http://www.math.utah.edu/hsp">
+            <font color="#FDF5E6" size="+2">High School Program</font>
+            </a>
+            <font color="#FFFFFF" size="+2"> Lecture</font>
+            </td><td>
+         </td></tr>
+      </tbody></table>
+      </td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;</td> 
+   </tr> 
+</tbody></table> 
+
+<p></p><p>
+
+
+
+</p><hr>
+
+
+
+<!--%this is a working file of lecture to HSP: Perspective drawing on the computer 
+% %we present some applications of high school geometry to computer graphics %-->
+
+
+<h1><a name="top"> The Geometry of Perspective Drawing on the Computer </a></h1>
+
+
+
+<p>
+</p><ul type="SQUARE" class="style2"> 
+<li>Andrejs Treibergs  
+</li><li>University of Utah  
+</li><li>Department of
+Mathematics  
+</li><li>155 South 1400 East, Rm. 233  
+</li><li>Salt Lake City, UTAH 84112-0090 
+
+</li><li>E-mail address:<a href="mailto:treiberg@math.utah.edu">treiberg@math.utah.edu</a> </li></ul>
+
+
+<p>
+
+</p><p>
+
+</p><p> 
+
+</p><hr>
+<p> 
+
+</p><table cellspacing="0" border="0"> 
+   <tbody><tr>
+      <th valign="MIDDLE" colspan="2" align="CENTER"><font size="+2" color="maroon">
+      Table of Contents.</font></th> 
+   </tr> 
+   <tr>
+      <td valign="MIDDLE">
+      <ul> 
+         <li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#intro">Introduction / Historical remarks.</a>  
+         </li><li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#Parallelx">Parallel Transformation of Points.</a>  
+         </li><li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#RotVec">Rotation of Vectors.</a>  
+         </li><li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#PerspProj">Perspective projections</a> 
+         <ul> 
+            <li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#OnePtPersp">One-Point Perspective</a>  
+            </li><li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#TwoPtPersp">Two-Point Perspective</a> 
+         </li></ul>
+      </li></ul> 
+      </td> 
+      <td valign="MIDDLE">
+      <ul> 
+         <li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#UsingVP">Using Vanishing points</a>  
+         </li><li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#circle">Perspective Drawing of Circle</a>  
+         </li><li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#ProjGeom">What is projective geometry?</a>  
+         </li><li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#CompGrap">Computer Graphics</a>  
+         </li><li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#Probs">Problems.</a>  
+         </li><li><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#refs">References</a> 
+      </li></ul> 
+      </td> 
+   </tr> 
+</tbody></table>
+<p> 
+</p><hr>
+<p>
+
+</p><blockquote><em>Abstract.</em> We present some mathematical ideas that occur in art and computer
+graphics. We touch upon the geometry of similar triangles, rigid motions in three space,
+perspective transformations, and projective geometry. We discuss computations behind rendering
+objects in perspective. We then describe vanishing points, answer how to measure distance in a
+receding direction in a perspective drawing and why a circle in three space becomes an ellipse when
+drawn in perspective. We use MAPLE generated computations and graphics to illustrate the ideas.
+</blockquote> 
+
+<blockquote><tt>``I freely confess that I never had a taste for study or research
+either in physics or geometry except in so far as they could serve as a means of arriving at some
+sort of knowledge of the proximate causes...for the good and convenience of life, in maintaining
+health, in the practice of some art...having observed that a good part of the arts is based on
+geometry, among others the cutting of stone in architecture, that of sundials, and that of
+perspective in particular.´´ 
+<br> Girard Desargues</tt> 
+</blockquote> 
+
+
+<h2><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top">
+<img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="intro"> Introduction.</a> </h2>
+
+<p>Artists now make amazing images using computers (<i>e.g.,</i> visit <a href="http://www.pixar.com/">PIXAR.</a>). But taking into account the complexity of all the
+physical laws of light requires extensive computation. We'll focus on mathematical concepts and
+derive the basic formulas that are at the heart of all rendering machines. We shall concentrate on
+the geometry of drawing objects, which can be described by points in space. We'll calculate the
+perspective transformations that locate the points on the drawing. Then we'll use MAPLE's
+capability to draw polygons and lines to show the effect of transformation. We'll apply this to
+show some mathematical / artistic concepts. (This note is a slightly expanded version of lecture
+notes [TA].) 
+</p><p>
+
+</p><p>A mathematical theory of perspective drawing could only be developed when the Renaissance freed
+painters to depict nature in a way closer to what they observed [IW]. The biographer Vasari
+(1511-74) says that the Florentine architect Filipo Brunelleschi (1337-1446) studied Greek
+geometry, developed a theory of perspective and undertook painting just to apply his geometry [KM].
+The first treatise, <i>Della pittura</i>(1435) by Leone Battista Alberti (1404-72) furnished most
+of the rules. Our diagram of <a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#PerspCirc">the perspective view of the circle</a> occurs in
+his text. A complete mathematical treatment <i>De prospectiva pingendi</i> (1478) was given by the
+Italian fresco painter Piero della Francesca (1410-1492). Leonardo da Vinci (1452-1519)
+incorporated geometry in his painting and wrote a now lost text on perspective <i>Tratto della
+pittura.</i> Albrecht Dürer (1471-1528) also wrote a text on the practice of geometry
+<i>Underweysung der Messung mid dem Zyrkel und Rychtscheyd</i> (1525) which was important in
+passing on to the Germans the Italian knowledge of perspective drawing. In it,
+ Dürer invented several 
+<a href="http://search.famsf.org/4d.acgi$Record?53687&=list&=11&=&=And&=18&=0&=keywords&=Yes&=durer%20&=&=&=Yes&=&=f">drawing machines</a>  to teach perspective. Alberti was first to ask if
+two drawing screens are interposed between the viewer and the object, and the object is projected
+onto both resulting in two different pictures of the same scene, what properties do the two
+pictures have in common [BC]. 
+</p><p>
+
+</p><p align="CENTER"><a name="AlbertiQ"><img src="./Mathematics of Perspective Drawing_files/AlbertiQ.GIF" align="MIDDLE" width="480" height="291" alt="Two projections of the same object."></a>
+</p><p>
+
+</p><p align="CENTER">Alberti's Problem: What do the two projections have in common?
+</p><p>
+
+</p><p>This question prompted the development of a new subject, <i>projective geometry</i> whose
+exponent was Girard Desargues (1591-1661). Desargues studied perspective geometry from a synthetic
+point of view, meaning he built up the geometry from axioms about points, lines and planes. A
+sampling is given in the section on <a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#ProjGeom">projective geometry.</a> There we address
+the question why the perspective image of a circle necessarily the ellipse. It can also be answered
+using analytic geometry methods, such as in our chapter on <a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#circle">analytic geometry,</a>
+where first, points and lines are reduced to equations. A modern deductive footing for perspective
+drawing was given later by Brook Taylor (1685-1731) and J.&nbsp;H.&nbsp;Lambert (1728-77). A
+competing point of view has held by mathematicians such as René Decartes (1596-1650), Pierre
+de Fermat (1601-1665) and Julius Plücker (1801-1868) who studied these question algebraically.
+Their work spurred the development of <i>algebraic geometry.</i> Mathematical issues and history
+are more completely covered in [BP], [DH], [FP], [M], [OW], [PD], [SD] and [WC]. 
+</p><p>
+
+</p><p>Some current popular drawing texts such as Edwards' [EB] de-emphasize the analytical approach in
+favor of an intuitive sighting method for perspective. However, complicated drawing situations
+require more analysis [EB], [EM]. If a student wishes to pursue linear perspective in the history
+and art see, <i>e.g.</i> [CA]. There are a number of web sites worth perusing, [DJ], [EM], [MS] as
+are sites discussing perspective and the internet [KJ], [XX]. The computer science of graphics is
+discussed in [BP], [FP], [PP]. Many of our illustrations were generated by the <a href="http://www.mapleapps.com/categories/graphics/gallery/acgraphicsgallery.html">MAPLE</a> symbolic
+algebra, graphics and computation system. Our code in the MAPLE programming language is available
+at <a href="http://www.math.utah.edu/~treiberg/HS.html"><tt>http://www.math.utah.edu/~treiberg/HS.html</tt></a>
+Differential geometric graphic applications of MAPLE are described in Oprea [OJ] and Rovenski [RV]
+and of MATHEMATICA in Gray [GA]. Other graphics packages to render differential geometric objects, <i>e.g.,</i> are 
+Richard Palais' <a href="http://rsp.math.brandeis.edu/3D-Filmstrip_html/3D-FilmstripHomePage.html">3D-Filmstrip</a>
+or Konrad Polthier's <a href="http://www-sfb288.math.tu-berlin.de/vgp/javaview/index.html">JavaView</a>.
+</p><p> 
+</p><h1><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="Parallelx"> Parallel transformation of points.</a></h1>
+
+<p>The perspective transformations that describe how a point in three space is mapped to the
+drawing plane can be simply explained using elementary geometry. We begin by setting up
+coordinates. A projection involves two coordinate systems. A point in the coordinate system of an
+object to be drawn is given by <var>X=(x,y,z)</var> and the corresponding in the imaging system (on
+the drawing plane) is <var>P=(u,v)</var>. If we use the standard right handed 
+</p><p>
+
+</p><p align="CENTER"> <img src="./Mathematics of Perspective Drawing_files/projection.GIF" align="MIDDLE" width="371" height="190" alt="Diagram of perspective projection">
+</p><p>
+
+</p><p align="CENTER">Projecting an object to the drawing plane.
+</p><p>
+
+</p><p>system, then <var>x</var> and <var>y</var> correspond to width and depth and <var>z</var>
+corresponds to height. On the drawing plane, we let <var>u</var> be the horizontal variable and
+<var>v</var> the vertical. 
+</p><p>
+
+</p><p>We can measure the distances between pairs of points in the usual way using the Euclidean
+metric. If
+<br> <var>X<sub>1</sub> = (x<sub>1</sub>, y<sub>1</sub>, z<sub>1</sub>)</var> and
+<var>P<sub>1</sub> = (u<sub>1</sub>, v<sub>1</sub>)</var> and so on, then 
+</p><div class="style1">
+<var>dist(X<sub>1</sub>, X<sub>2</sub>) = {(x<sub>1</sub> - x<sub>2</sub>)<sup>2</sup> +
+(y<sub>1</sub> - y<sub>2</sub>)<sup>2</sup> + (z<sub>1</sub> - 
+z<sub>2</sub>)<sup>2</sup>}<sup>1/2</sup>,<br>
+<br>
+dist(P<sub>1</sub>, P<sub>2</sub>) = {(u<sub>1</sub> - u<sub>2</sub>)<sup>2</sup> + 
+(v<sub>1</sub> - v<sub>2</sub>)<sup>2</sup>}<sup>1/2</sup></var>
+</div>
+<p> 
+The projection from <var>X</var> to <var>P</var> is called a <i>parallel
+projection</i> if all sets of parallel lines in the object are mapped to parallel lines on the
+drawing. Such a mapping is given by an affine transformation, which is of the form 
+</p><p align="CENTER">
+<var> = f(X) = T + AX </var>
+</p><p> 
+</p><p>where <var>T</var> is a fixed vector in the plane
+and <var>A</var> is a <var>3 x 2</var> constant matrix. Parallel projection has the
+further property that ratios are preserved. That is if <var>X<sub>1</sub></var>,
+<var>X<sub>2</sub></var>, <var>X<sub>3</sub></var> and <var>X<sub>4</sub></var> are collinear
+points in the object, then the ratio of distances is preserved under parallel projection 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/p4.gif" align="MIDDLE" width="248" height="43" alt="Equation: f preserves ratio of distances">
+</p><p>
+
+</p><p>Of course denominators are assumed to be nonzero. 
+</p><p>
+
+</p><p>To illustrate, let's begin with an object in three space, say a simplified house. It consists of
+the points <var>[0,0,0]</var>, <var>[0,0,3]</var>, <var>[3.5,0,5]</var>, <var>[7,0,3]</var>,
+<var>[7,0,0]</var>, <var>[0,9,3]</var>, <var>[0,9,0]</var>, <var>[7,9,3]</var>, <var>[7,9,0]</var>,
+<var>[3.5,9,5]</var> which define eight corners of a box and two gable points and
+<var>[3,9.1,0]</var>, <var>[5,9.1,0]</var>, <var>[5,9.1,8]</var>, <var>[3,9.1,8]</var>,
+<var>[3,10.2,0]</var>, <var>[5,10.2,0]</var>, <var>[5,10.2,8]</var>, <var>[5,10.2,8]</var> which
+define the chimney. 
+</p><p>
+
+</p><p align="center"> <img src="./Mathematics of Perspective Drawing_files/Maple3d.GIF" align="MIDDLE" width="260" height="299" alt="MAPLE generated 3d polygons">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated <var>3d</var> plot of house.
+</p><p>
+
+</p><p>The most frequent parallel projections are called <i>elevations</i>, <i>oblique projections</i>
+and <i>isometric projections.</i> The elevations are just the front, top and side views of the
+object. Thus the projections are given by the functions 
+</p><p> 
+</p><p align="CENTER">
+<var>F<sub>front</sub>(x,y,z)=(x,z), &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+F<sub>side</sub>(x,y,z)=(y,z);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F<sub>top</sub>(x,y,z)=(x,y)
+</var> 
+</p><p>
+Applied to the house object, we get three views. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/elevations.GIF" align="MIDDLE" width="382" height="431" alt="MAPLE generated elevations">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated elevations.
+</p><p>
+
+</p><p>In oblique projection, which is also called <i>Cavalier projection,</i> the front view is
+undistorted, but the sections of the object corresponding to <var>y = y<sub>0</sub></var> constant
+are drawn up and to the right depending on how far back <var>y<sub>0</sub></var> is. If we write
+<var><b>w</b>=<big>(</big>2<sup>-1/2</sup>, 2<sup>-1/2</sup><big>)</big><sup>T</sup></var>, the unit vector in
+the plane at <var>45°</var>, then we may write 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/p6.gif" align="MIDDLE" width="470" height="57" alt="Equation for F.oblique">
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/oblique.GIF" align="MIDDLE" width="385" height="452" alt="MAPLE generated oblique view">
+</p><p>
+
+</p><p>The vectors have been written in column form to here to facilitate matrix multiplication, but
+we'll not fuss about whether a vector is a row or column and use both forms interchangeably. Note
+that since <var><b>w</b></var> is a unit vector, lengths in the <var>y</var> directions are mapped
+to equal lengths along the <var>45°</var> line in the drawing. Indeed, putting
+<var>c = 2<sup>-1/2</sup></var>, 
+
+</p><div align="left" class="style1">
+<var>dist((x<sub>0</sub>,y<sub>1</sub>,z<sub>0</sub>),(x<sub>0</sub>,y<sub>0</sub>,z<sub>0</sub>)) 
+= |y<sub>1</sub> - y<sub>0</sub>|;
+<br> 
+dist(F(x<sub>0</sub>,y<sub>1</sub>,z<sub>0</sub>),F(x<sub>0</sub>,y<sub>0</sub>,z<sub>0</sub>))
+<br>
+ = dist((x<sub>0</sub> + c y<sub>1</sub>, z<sub>0</sub> + c
+y<sub>1</sub>), (x<sub>0</sub> + c y<sub>0</sub>,z<sub>0</sub> + c y<sub>0</sub>))
+<br> =
+<big>{</big>(c y<sub>1</sub> - c y<sub>0</sub>)<sup>2</sup> + (c y<sub>1</sub> - c
+y<sub>0</sub>)<sup>2</sup><big>}</big><sup>1/2</sup> = |y<sub>1</sub> - y<sub>0</sub>|. </var>
+</div>
+
+Of course horizontal and vertical lines also preserve measurement. There is nothing special
+about <var>45°</var> except that it is common. One can find drafting paper that has
+horizontal, vertical and <var>45°</var> lines used to make oblique projections. Any unit
+vector <var><b>w</b></var> will do as well. 
+<p> 
+</p><h1><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="RotVec"> Rotation of Vectors</a></h1>
+
+<p>Let <var>R</var> denote a rotation in the plane which moves points <var>(x,y)</var> about the
+origin an angle <var>h<sub>0</sub></var>. If a vector is written in polar coordinates <var>(x,y)=(r
+cos h,r sin h)</var> where <var>r={x<sup>2</sup> + y<sup>2</sup>}<sup>1/2</sup></var> is the
+distance of the point to the origin and <var>h</var> is the angle from the positive
+<var>x</var>-axis, <var>dist((0,0),(x,y)),</var> and <var>h</var> is the angle, then using
+trigonometric identities the rotated point 
+
+</p><div align="left" class="style1"><var>R(x,y) = (r
+cos(h<sub>0</sub> + h), r sin(h<sub>0</sub> + h))<br> &nbsp;&nbsp;&nbsp;= (r cos h<sub>0</sub> cos
+h - r sin h<sub>0</sub> sin h, r sin h<sub>0</sub> cos h + r cos h<sub>0</sub> sin h)<br>
+&nbsp;&nbsp;&nbsp;= (x cos h<sub>0</sub> - y sin h<sub>0</sub>, x sin h<sub>0</sub> + y cos
+h<sub>0</sub>) </var>
+</div>
+has the same distance from the origin and a new angle
+<var>h+h<sub>0</sub></var>. Bob Palais has a nice way of seeing this&nbsp; [PR 
+<a href="http://www.math.utah.edu/~cherk/ccli/bob/Rotation/Rotation.html">
+<tt>http://www.math.utah.edu/~cherk/ccli/bob/Rotation/Rotation.html</tt></a>] 
+and we present a modification of his approach. Without knowing that sines and
+cosines are involved, it's possible to write down the rotation transformation just knowing what
+vectors are rotated into. For example, if we are given a vector <var>(a,b)</var> and wish to rotate
+it into the vector <var>(0,r)</var>, then we know that
+<var>r={a<sup>2</sup>+b<sup>2</sup>}<sup>1/2</sup></var> is the length of the vector, and the angle
+of rotation has to be <var>h<sub>0</sub></var> where <var>sin h<sub>0</sub>=a/r</var> and <var>cos
+h<sub>0</sub> = b/r</var>. Thus 
+<p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/p8h.gif" align="MIDDLE" width="365" height="51" alt="Rotation equation.">
+</p><p>
+
+</p><p>Hence <var>R(a,b)=(0,r)</var> as desired. 
+</p><p>
+
+</p><p>A variant of oblique projection is called <i>military projection.</i> In this case the
+horizontal sections are isometrically drawn so that the floor plans are not distorted and the
+verticals are drawn at an angle. The military projection is given by rotation in the
+<var>x</var>-<var>y</var> plane and a vertical translation an amount <var>z</var>. Thus 
+</p><p>
+</p><p align="CENTER"><var>F<sub>military</sub>(x,y,z) = ( c x - s y, s x + c y + z). 
+ </var> 
+</p><p>We
+chose <var>h<sub>0</sub>=-53.1°</var> so that <var>c=0.6</var> and <var>s=-0.8</var>. Note
+that the floorplan is drawn rotated but without distortion. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/military.GIF" align="MIDDLE" width="291" height="444" alt="MAPLE generated military peojection.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated military projection.
+</p><p>
+
+</p><p>The isometric projections are that class or parallel projections for which a round sphere
+projects to a round circle. The most common case is when measurements along the <var>x</var>-axis
+are plotted at <var>30°</var>, those along the <var>y</var> axis at
+<var>+150°</var> and the vertical axis. Thus if
+<var><b>w</b><sub>1</sub>=(3<sup>1/2</sup>/2,1/2)</var>,
+<var><b>w</b><sub>2</sub>=(-3<sup>1/2</sup>/2,1/2)</var> and <var><b>w</b><sub>3</sub>=(0,1)</var>
+are unit vectors at <var>-30°</var>, <var>+30°</var> and <var>90°</var>
+(vertical), the isometric projection is 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/p9.gif" align="MIDDLE" width="494" height="58" alt="Equation for F.isom.">
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/isometric.GIF" align="MIDDLE" width="368" height="427" alt="MAPLE generated isometric projection.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated standard isometric projection.
+</p><p>
+
+</p><p>The general parallel projection is obtained by applying a general affine transformation of the
+form <var>F(X) = AX + T</var>. If we choose <var>T=0</var> and 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/P10a.GIF" align="MIDDLE" width="128" height="39" alt="Equation of 2x3 constant matrix A.">
+</p><p>
+
+</p><p>and measure the depth according to <var>GH(x,y,z) = x + 2y - z</var> and then the picture is
+distorted so that none of the directions measure actual length. As mentioned before, parallel lines
+and proportions are preserved. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/GLN.GIF" align="MIDDLE" width="487" height="386" alt="MAPLE generated general linear projection.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated projection by the affine function <var>F(X) = AX + T</var>.
+</p><p>
+
+
+</p><h2><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="PerspProj"> Perspective
+projections.</a> </h2>
+
+<p>We now describe the perspective transformation. It is the composition of a rigid motion followed
+by the perspective transformation that reduces distant objects. The rigid motion moves the object
+in front of the drawing plane in such a way that the eye point <var>ep=(x<sub>e</sub>,
+y<sub>e</sub>, z<sub>e</sub>)</var> is moved to the origin, so that the vector from eyepoint to
+centerpoint <var>cp=(x<sub>c</sub>, y<sub>c</sub>,z<sub>c</sub>)</var> toward which the eye is
+looking is moved to the positive <var>y</var>-axis and so that the vertical line through the
+centerpoint is drawn vertical. We shall accomplish the rigid motion by first translating the object
+to move the eyepoint to the origin using 
+</p><p> 
+ </p><p align="CENTER"><var>T(x,y,z)=(x - x<sub>e</sub>,
+y - y<sub>e</sub>, z - z<sub>e</sub>). 
+</var> 
+</p><p>
+Let the new vector eye to center be the
+displacement <var>dp:=T(cp)</var>. Then we rotate the object around the origin. Every rotation is
+the composition of a rotation around the <var>z</var>-axis by an angle <var>h</var>, around the new
+<var>x</var>-axis by an angle <var>k</var> and around the <var>y</var>-axis by an angle
+<var>l</var>. The three angles <var>h</var>, <var>k</var>, <var>k</var> are called the <i>Euler
+angles.</i> We only need the first two rotations, and we can compute the cosines and sines involved
+using only the eyepoint and centerpoint coordinates. First we rotate <var>dp</var> around the
+<var>z</var>-axis so that <var>(dp<sub>1</sub>, dp<sub>2</sub>)</var> moves to <var>(0,
+r<sub>1</sub>)</var> where
+<br>
+ <var>r<sub>1</sub> = {dp<sub>1</sub><sup>2</sup> +
+dp<sub>2</sub><sup>2</sup>}<sup>1/2</sup></var>. Letting <var>s<sub>1</sub> =
+dp<sub>1</sub>/r<sub>1</sub></var>, <var>c<sub>1</sub> = dp<sub>2</sub>/r<sub>1</sub></var> then
+the rotation is as before 
+</p><p> 
+ </p><p align="CENTER"><var>R( x, y, z) = (c<sub>1</sub> x - s<sub>1</sub> y,
+s<sub>1</sub> x + c<sub>1 </sub>y, z). 
+</var> 
+</p><p>
+Let <var>rdp= R(dp)=(0, rdp<sub>2</sub>,
+rdp<sub>3</sub>)</var> be the rotated <var>dp</var>. The length of <var>rdp</var> is the same as
+the length of <var>dp</var> which is <var>r<sub>2</sub> = {dp<sub>1</sub><sup>2</sup> +
+dp<sub>2</sub><sup>2</sup> + dp<sub>3</sub><sup>2</sup>}<sup>1/2</sup> =
+{rdp<sub>2</sub><sup>2</sup> + rdp<sub>3</sub><sup>2</sup>}<sup>1/2</sup></var>. The second
+rotation takes <var>rdp</var> to <var>(0, r<sub>2</sub>, 0)</var>. Setting <var>c<sub>2</sub> =
+rdp<sub>2</sub>/r<sub>2</sub></var>, <var>s<sub>2</sub> = rdp<sub>3</sub>/r<sub>2</sub></var>, the
+rotation around the <var>x</var>-axis becomes 
+</p><p align="CENTER">
+<var>
+S( x, y, z) = (x,
+c<sub>2</sub> y + s<sub>2</sub> z, - s<sub>2</sub> y + c<sub>2</sub> z). 
+</var> 
+</p><p>The
+composite <var>SRT(X) = S(R(T(X)))</var> is the desired rigid motion 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/P11.GIF" align="MIDDLE" width="421" height="122" alt="Equation for the composite projection SRT">
+</p><p>
+
+</p><p>The perpendicular projection is the front view or <var>(x,z)</var> part of the rotated object
+
+</p><p align="CENTER">
+<var>
+F<sub>perp.</sub>(x,y,z)= [ c<sub>1</sub>(x-x<sub>e</sub>) -
+s<sub>1</sub>(y - y<sub>e</sub>), -s<sub>1</sub> s<sub>2</sub>(x - x<sub>e</sub>) - c<sub>1</sub>
+s<sub>2</sub>(y - y<sub>e</sub>) + c<sub>2</sub>(z - z<sub>e</sub>)] </var>
+</p><p>
+and the depth
+is computed by <var>GPpP(x, y, z)= s<sub>1</sub> c<sub>2</sub>(x - x<sub>e</sub>) + c<sub>1</sub>
+c<sub>2</sub>(y - y<sub>e</sub>) + s<sub>2</sub>(z - z<sub>e</sub>)</var>. For example, taking the
+eyepoint <var>ep=(11.0,-15.0,2.0)</var> and centerpoint <var>cp=(3.5,5.0,3.0)</var> projects the
+house so: 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/Orth.GIF" align="MIDDLE" width="400" height="445" alt="MAPLE generated orthogonal projection.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated orthogonal projection.
+</p><p>
+
+</p><p>Because light reflecting off the object travels in straight lines, the object point is seen on
+the drawing plane at the point where the line from the eyepoint to the object point intersects the
+drawing plane. The perspective transformation is simply to deduce the coordinates <var>(u,v)</var>
+on the drawing plane, which is a distance <var>d</var> from the origin, from the point
+<var>X=(x,y,z)</var> using triangles. The triangles <var>(0,0):(0,d):(u,d)</var> and
+<var>(0,0):(0,y):(x,y)</var> in the <i>x-y-</i>plane and the triangles
+<var>(0,0):(d,0):(d,v)</var> and <var>(0,0):(y,0):(y,z)</var> in the
+<i>y-z-</i>plane are similar. It follows that 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/p12.gif" align="MIDDLE" width="135" height="38" alt="Equation for u and v from similar triangles.">
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/perspy3.GIF" align="MIDDLE" width="339" height="214" alt="MAPLE generated perspective projection.">
+</p><p>
+
+</p><p align="CENTER">Similar triangles used in computing perspective projection.
+</p><p>
+
+</p><p>We have been using <var>d=1</var> from which the perspective transformation may be calculated.
+
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/p13.gif" align="MIDDLE" width="567" height="54" alt="Equation for perspective projection F.persp.">
+</p><p>
+
+</p><p>This is just the <i>x-z-</i>coordinates of the perpendicular transformation
+divided by the depth (<var>y</var>-coordinate.) Using the same eyepoint and centerpoint as for the
+perpendicular transformation, we plot the house by perspective transformation. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/persp.GIF" align="MIDDLE" width="395" height="318" alt="MAPLE generated perspective projection.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated perspective projection.
+</p><p>
+
+</p><p>Perspective transformations have the property that parallel lines on the object are mapped to
+pencils of lines passing through a fixed point in the drawing plane. To see this, note that each
+line in the rotated object lies in the plane passing through the line and through the eyepoint.
+This plane intersects the drawing plane in a line hence the image of a line in space is a line in
+the drawing. Any parallel lines in the object are parallel to the drawing plane or not. If the
+lines are parallel to the drawing plane (the <var>y</var>-coordinates on the line are constant)
+then the division by the depth (the <var>y</var> coordinate of the rotated object) is division by
+constant. Thus the formula reduces to a constant multiple of the numerator which is an affine
+transformation that maps parallel lines to parallel lines. If the parallel lines are not parallel
+with the drawing plane, then their image on the drawing plane passes through a fixed point, called
+the <i>vanishing point.</i> The easiest way to see this is to consider a pair of points on two
+parallel lines that travel together away from the drawing plane. Imagine that a wire of fixed
+length connects the points. Because the pair can get farther and farther from the drawing plane
+without letting go the wire, their perspective images get closer and closer in the drawing since
+the denominators are getting large whereas the difference in their <var>(x,z)</var> directions are
+bounded. Imagine the cliché of two rails of a track converging at infinity. 
+</p><p>
+
+</p><p>For general choices of the eyepoint and centerpoint, the parallel lines originally in the
+<var>x</var>, <var>y</var> and <var>z</var>-axis directions are not rotated to a position parallel
+to the drawing plane. Thus these three directions each have their own vanishing points. This is
+called <em>three-point perspective.</em> The three points may not so easily seen since they may not
+be within the cone of vision that limits the width of our view. To illustrate one and two point
+perspective we change our eye and center points to guarantee some parallel lines parallel to the
+drawing plane. 
+</p><p> 
+</p><h2><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="OnePtPersp"> One-point perspective.</a> </h2>
+
+<p>Let us consider specific choices of eyepoint and centerpoint for which some of the objects axes
+are parallel to the drawing plane. Let the eyepoint <var>ep=[6.0,-15.0,2.0]</var> and the
+centerpoint <var>cp=[6.0,5.0,2.0]</var>. Because <var>dp=[0,20,0]</var> no rotation is necessary.
+The <var>x</var> and <var>z</var>-axes are parallel to the <var>y=1</var> plane. The perpendicular
+projection is just the front elevation and the perspective view has one vanishing point
+corresponding to the <var>y</var>-axis direction. The vanishing point is indicated (it is the
+position of the centerpoint.) 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/frontx.GIF" align="MIDDLE" width="300" height="282" alt="MAPLE generated front view.">
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/OnePt.GIF" align="MIDDLE" width="333" height="224" alt="MAPLE generated one point perspective.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated front elevation and one point perspective projection.
+</p><p> 
+</p><h2><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="TwoPtPersp"> Two-point perspective.</a>
+</h2>
+
+<p>Let the eyepoint <var>ep=[16.0,-15.0,2.0]</var> and the centerpoint <var>cp=[6.0,5.0,2.0]</var>.
+This time <var>dp=[-10,20,0]</var> so that the only rotation is about the <var>z</var> axis. The
+<var>z</var>-axis is parallel to the <var>y=1</var> plane. The perpendicular projection is now a
+corner elevation and the perspective view has two vanishing points corresponding to the
+<var>x</var>- and <var>y</var>-axis directions. The centerpoint is indicated. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/Orthtwo.GIF" align="MIDDLE" width="347" height="291" alt="MAPLE generated orthogonal projection.">
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/persptwo.GIF" align="MIDDLE" width="354" height="254" alt="MAPLE generated two-point perspective.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated orthogonal and two-point perspective projection.
+</p><p>
+
+</p><p>Another pair of views come by taking the eyepoint <var>ep=[-6.0,5.0,9.0]</var> and the
+centerpoint <var>cp=[6.0,5.0,2.0]</var>. This time the horizontal lines are parallel to the drawing
+plane but the vertical and receding lines are not. Therefore the vanishing points correspond to the
+vertical and receding directions. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/Twoorth2.GIF" align="MIDDLE" width="398" height="410" alt="MAPLE generated orth proj.">
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/Twopersp2.GIF" align="MIDDLE" width="386" height="326" alt="MAPLE generated two point perspective.">
+</p><p>
+
+</p><p align="CENTER">Another MAPLE generated orthogonal and two-point perspective projection.
+</p><p>
+
+
+</p><h2><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="UsingVP"> Using vanishing
+points and measuring points.</a> </h2>
+
+<p>The maximum view that the eye can take in is a cone of about <var>30°</var> about its
+axis (the <i>cone of vision.</i>) It is possible for the computer to plot points outside the cone
+of vision, but such a drawing has a distortion like a fisheye camera photo. Thus usually both
+vanishing points aren't visible in the same scene, as in this computer-generated view of a cube
+with parallel lines. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/PerCube.GIF" align="TOP" width="365" height="195" alt="MAPLE generated perspective view of cube.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated perspective view of unit cube showing vanishing points. 
+</p><p>
+
+</p><p>How do we locate the vanishing points in the drawing? The vanishing points for the
+<var>x</var>-axis and <var>y</var> axis parallels are always on the horizon line. If <var>d</var>
+is the distance from eye to drawing, then the two vanishing points in the drawing for
+<var>x</var>-axis and <var>y</var>-axis lines are on lines which meet at the eyepoint at
+<var>90°</var>. This is easiest to see by imagining the top view. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/ConstrVP.GIF" width="327" height="288" alt="MAPLE generated construction of vanishing point.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated perspective view and construction of vanishing points from top
+view. 
+</p><p>
+
+</p><p>The drawing plane is a distance <var>d</var> from the eyepoint <var>E</var>. The rays emanating
+from the eyepoint at right angles parallel to the <var>y</var> and <var>x</var>-axes are the line
+segments <var>EA</var> and <var>EB</var>. <var>A</var> is the <var>u</var>-coordinate of the
+<var>y</var>-axis vanishing point <var>V1</var> and <var>B</var> is the <var>u</var>-coordinate of
+the <var>x</var>-axis vanishing point <var>V2</var>. The <var>v</var>-coordinates are
+<var>v=0</var> which corresponds to the eyelevel and horizon line. A circle whose center is on the
+drawing line and passes through the eyepoint intersects the drawings line at two points, say
+<var>A</var> and <var>B</var> for which <var>AEB</var> is a right angle. This is the geometric fact
+that a diameter <var>AB</var> subtends an angle <var>90°</var> from any point <var>E</var>
+on the arc <var>AEB</var>. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/perspcub.GIF" width="512" height="512" alt="MAPLE generated perspective view of cube.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated perspective and top view of vanishing points and their
+construction.
+</p><p>
+
+</p><p>How do we measure distances in the receding direction? The idea is to figure out sets of
+parallel lines which transfer measurements along the baseline, a line parallel to the drawing
+plane, to the receding line. The projective transformation may scale but not distort distances
+along the baseline. To see how this works, consider the top view of a <var>3 x 3</var>
+square. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/Parallel.GIF" width="374" height="284" alt="MAPLE generated view of parallel lines.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated parallel sets of measuring lines.
+</p><p>
+
+</p><p>The baseline is the line <var>af</var>. The baseline has equally spaced points <var>a</var>,
+<var>b</var>, <var>c</var>, <var>o</var>, <var>d</var>, <var>e</var>, <var>f</var> in order. The
+spacing is the same as along the square <var>o</var>, <var>c'</var>, <var>b'</var> <var>a'</var>
+and <var>o</var> <var>d'</var>, <var>e'</var>, <var>f'</var>. The square has been rotated an angle
+<var>foX</var>. The parallels to <var>oX</var> and the parallels to <var>oY</var> are along the two
+sides of the square. Their perspective images converge to two vanishing points. The other two sets
+of lines are called measuring lines. One family are the parallels <var>oP</var>, <var>dd'</var>,
+<var>ee'</var>, <var>ff'</var> measure the <var>oX</var> side of the square and the other set of
+parallels <var>oQ</var>, <var>cc'</var>, <var>bb'</var>, <var>aa'</var> measure the <var>oY</var>
+side of the square. This is what it looks like in perspective. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/MeasTop.GIF" align="TOP" width="512" height="512" alt="MAPLE generated view of measuring lines">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated top and perspective views showing parallel measuring lines,
+vanishing and measuring points. 
+</p><p>
+
+</p><p>
+Because the
+lines connect equally spaced points, the triangles <var>fof'</var> and
+<var>aoa'</var> are isosceles. This means that if the line <var>oW</var> is chosen so that the 
+angle <var>foW</var> bisects
+the angle <var>foX</var>, then the lines <var>oP</var> and <var>oW</var> are perpendicular and the 
+angle 
+<var>
+<script language="JavaScript1.2" type="text/javascript">
+NETorIE("<font face='Symbol'>‚</font>foP = 90&deg; + <font face='Symbol'>‚</font> foW."
+,"&#8736; foP = 90&deg; + &#8736; foW.")</script><font face="Symbol">‚</font>foP = 90° + <font face="Symbol">‚</font> foW.
+</var> Similarly, the triangle <var>aoa'</var> is isosceles so the angle 
+<var>
+<script language="JavaScript1.2" type="text/javascript">
+NETorIE("<font face='Symbol'>‚</font>a'ao = <font face='Symbol'>‚</font> aa'o."
+,"&#8736; a'ao = &#8736; aa'o.")</script><font face="Symbol">‚</font>a'ao = <font face="Symbol">‚</font> aa'o.</var> But since the total angle of a triangle is 
+<var><script language="JavaScript1.2" type="text/javascript">
+NETorIE("180&deg; = <font face='Symbol'>‚</font>aoa' + 2<font face='Symbol'>‚</font> a'ao,"
+,"180&deg; = &#8736; aoa' + 2&#8736; a'ao,")</script>180° = <font face="Symbol">‚</font>aoa' + 2<font face="Symbol">‚</font> a'ao,</var> and since 
+they are supplementary, 
+<var>
+<script language="JavaScript1.2" type="text/javascript">
+NETorIE("180&deg; = <font face='Symbol'>‚</font>aoa' + 90&deg; + <font face='Symbol'>‚</font> foX."
+,"180&deg; = &#8736; aoa' + 90&deg; + &#8736; foX.")</script>180° = <font face="Symbol">‚</font>aoa' + 90° + <font face="Symbol">‚</font> foX.</var> It follows that 
+<var>
+<script language="JavaScript1.2" type="text/javascript">
+NETorIE("<font face='Symbol'>‚</font>aoa' = 90&deg; - <font face='Symbol'>‚</font> foX."
+,"&#8736; aoa' = 90&deg; - &#8736; foX.")</script><font face="Symbol">‚</font>aoa' = 90° - <font face="Symbol">‚</font> foX.
+</var> so <var><script language="JavaScript1.2" type="text/javascript">
+NETorIE("<font face='Symbol'>‚</font>foQ = <font face='Symbol'>‚</font>oaa' = 90&deg; - 1/2<font face='Symbol'>‚</font>aoa' = 45&deg; + 1/2<font face='Symbol'>‚</font>foX."
+,"&#8736; foQ = &#8736;oaa' = 90&deg; - &frac12;&#8736;aoa' = 45&deg; + &frac12;&#8736; foX.")
+</script><font face="Symbol">‚</font>foQ = <font face="Symbol">‚</font>oaa' = 90° - 1/2<font face="Symbol">‚</font>aoa' = 45° + 1/2<font face="Symbol">‚</font>foX.</var> These angles may be easily constructed on the circle.</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/MPConstr.GIF" align="TOP" width="292" height="176" alt="MAPLE generated construction of measuring point.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated top view for constructing vanishing points and measuring points.
+
+</p><p>
+
+</p><p>As before, we locate the eyepoint <var>E</var> and centerpoint <var>O</var> on the drawing and
+let line <var>EF</var> be parallel to <var>AB</var>. The sides of the box from the previous diagram
+are along the rays <var>EA</var> and <var>EB</var> so that the vanishing points in the drawing are
+located at <var>A</var> and <var>B</var>. Since a line intersects parallel lines so that opposite
+angles are equal, <script language="JavaScript1.2" type="text/javascript">NETorIE("<font FACE='Symbol'>‚</font>foX =
+<font FACE='Symbol'>‚</font> FEB = = <font FACE='Symbol'>‚</font> OBE." ,"&#8736; foX = &#8736; FEB
+= &#8736; OBE.")</script> Draw a circular arc with center <var>B</var> and radius
+<var>BE</var> until it meets the drawing plane line <var>AB</var> at <var>M1</var>. <var>EBM1</var>
+is a similar triangle to <var>fof'</var> so <script language="JavaScript1.2" type="text/javascript">NETorIE("<font
+FACE='Symbol'>‚</font>foP = <font FACE='Symbol'>‚</font>FEM1." ,"&#8736;foP =
+&#8736;FEM1.")</script> Thus <var>M1</var> is the point where the eye views the first family
+of measuring parallels; thus <var>M1</var> is the vanishing point for this set of parallels.
+Similarly, <script language="JavaScript1.2" type="text/javascript">NETorIE("<font FACE='Symbol'>‚</font>foQ = <font
+FACE='Symbol'>‚</font>A M2 E" ,"&#8736;foQ = &#8736;A M2 E")</script> so that if one draws a
+circle with center <var>A</var> and radius <var>AE</var> then this circle intersects the picture
+plane line at <var>M2</var>. Now the angle <script language="JavaScript1.2" type="text/javascript">NETorIE("<font
+FACE='Symbol'>‚</font>foQ = <font FACE='Symbol'>‚</font>FEM2" ,"&#8736;foQ = &#8736;FEM2")</script>
+so that the point <var>M2</var> is the vanishing point for the second family of measuring
+lines. Now we can use the measuring lines to mark off equispaced points on the perspectively
+receding lines. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/CoMPVP.GIF" align="TOP" width="290" height="262" alt="MAPLE generated perspective view and construction.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated measuring lines viewed in perspective and their construction
+viewed from the top. 
+</p><p>
+
+</p><p>We mark off equally spaced points <var>a</var>-<var>f</var> on the baseline as before. The lines
+<var>oV1</var> and <var>oV2</var> correspond to the bottom edges of the box. Moving up one unit
+from <var>o</var> gives the upper corner of the box and the rays to <var>V1</var> and <var>V2</var>
+give the upper front edges. Now, the first measuring family was chosen so that the intersections
+with the right front edge were points spaced the same distance apart as on the baseline. Thus,
+where the lines <var>dM1</var>, <var>eM1</var> and <var>fM1</var> intersect <var>oV1</var> are the
+equally spaced points <var>d'</var>, <var>e'</var> <var>f'</var> in the perspective drawing.
+Similarly, the measuring family of parallel lines for the left side of the box have a vanishing
+point at <var>M2</var>. The intersection of <var>aM2</var>, <var>bM2</var> and <var>cM2</var> with
+<var>oV2</var> correspond to the equally spaced points <var>a'</var>, <var>b'</var>, <var>c'</var>
+on the line <var>oV2</var>. The rest of the box is constructed by extending the vertical lines up
+from <var>a'</var>-<var>f'</var>. If one is using two-point perspective, these are truly vertical
+in the <var>u-v-</var>plane. Otherwise you have to use the vanishing point corresponding
+to the vertical family (which is probably way below the picture.) 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/MeasCub.GIF" align="TOP" width="512" height="512" alt="MAPLE generated mesuring lines viewed in perspective and construction.">
+</p><p>
+
+</p><p align="CENTER">MAPLE generated measuring lines viewed in perspective and their construction
+viewed from the top. 
+</p><p> 
+</p><h2><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="circle"> Analytic Treatment of the Perspective View of a
+Circle</a> </h2>
+
+<p>One is taught in drawing class, that circular objects in three-dimensional Euclidean Space are
+drawn in perspective as ellipses. The usual construction is to draw a square around the circle, and
+then project the perspective view of the square by finding its edges using the vanishing points and
+measuring points, the center by drawing the diagonals, and then sketching the projected circle by
+drawing it tangent to the projected square. A beginner will sometimes make the mistake of trying to
+make the tangency points the same as the endpoints of the axes of the ellipse, but they are not the
+same as seen in the p.&nbsp; 17 figure. But why is the image exactly the ellipse and not some other
+closed curve? 
+</p><p>
+
+</p><p>We shall answer this question by figuring out the equation of the image of the circle on the
+perspective drawing. We'll be using the methods of analytic geometry, where curves are represented
+by equations. Thus we shall describe a circle in three space by describing it as the locus of
+points satisfying certain equations. We then compute the corresponding perspective locus in terms
+of the Cartesian coordinates of the drawing plane. Finally, after some simplification, we will be
+able to recognize the curve as an ellipse. 
+</p><p>
+
+</p><p>The conic sections in the plane are given as the locus, that is the set of all points
+<var>(u,v)</var> in <var><b>E</b><sup>2</sup></var> which satisfy a quadratic equation of the form
+</p><p>(1.)
+</p><p align="CENTER"><var>au<sup>2</sup> + 2buv + cv<sup>2</sup> + eu + fv + g = 0, </var>
+</p><p>
+where <var>a</var>, <var>b</var>, <var>c</var>, <var>d</var>, <var>e</var>, <var>f</var>,
+<var>g</var> are constants. This can be deduced from the geometric description of the conic section
+as the intersection in three space of a plane with a right circular cone. All possible conic
+sections arise this way including degenerate ones such as lines and points and the empty set. For
+example if <var>a=b=c=0</var> then 
+</p><p align="CENTER"><var>e u + f v + g = 0 
+</var> </p><p>is
+the equation of a line and if <var>a=c=1</var>, <var>b=0</var>, <var>d=-2u<sub>0</sub></var>,
+<var>e=-2v<sub>0</sub></var>, <var>g=-u<sub>0</sub><sup>2</sup>-v<sub>0</sub><sup>2</sup></var>
+then 
+</p><p align="CENTER"><var>a u<sup>2</sup> + c v<sup>2</sup> + e u + f v + g =
+(u-u<sub>0</sub>)<sup>2</sup> + (v-v<sub>0</sub>)<sup>2</sup> = 0 
+</var> 
+</p><p>
+is satisfied only
+by one point <var>(u,v)=(u<sub>0</sub>,v<sub>0</sub>)</var> whereas 
+</p><p align="CENTER">
+<var>u<sup>2</sup> + v<sup>2</sup> + 1 = 0 
+</var> 
+</p><p>has no real solution at all. On
+the other hand if the discriminant 
+</p><p align="CENTER"><var>D = a c - b<sup>2</sup> 
+</var>
+</p><p>is negative, then the conic is a hyperbola, if <var>D=0</var> the conic is a parabola and if
+<var>D</var> is positive the conic is an ellipse. The easiest to see are the canonical 
+conic curves given by
+the formulae 
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/p24a.gif" align="MIDDLE" width="205" height="103" alt="Equations of standard forms of hyperbola, parabola, ellipse.">
+</p><p>
+
+</p><p>Of course if <var>a=b</var> the ellipse is a circle. 
+</p><p>
+
+</p><p>Now let's see what a projective transformation looks like analytically. For simplicity, we
+assume that the set is located in front of the observer (all points of the circle satisfy
+<var>y0</var>.) Then the horizontal and vertical coordinates of the drawing plane (points which
+satisfy <var>y=1</var>) are 
+</p><p>(2.)
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/p24b.gif" align="MIDDLE" width="128" height="33" alt="View of perspective.">
+</p><p>
+where <var>(x, y, z)</var> runs through all points of the original set. Now suppose that we
+consider a circle in space with center <var>(x<sub>0</sub>, y<sub>0</sub>, z<sub>0</sub>)</var> and
+radius <var>r</var> and which lies on a plane not parallel to the drawing plane. By a rotation
+around the <var>y</var>-axis, we may arrange that the intersection line of the circle plane and the
+drawing plane is horizontal. In other words, the equation of the plane through the center of the
+circle sloping away from the drawing plane with slope <var>m</var> is given by 
+</p><p>(3.)
+</p><p align="CENTER"><var>z - z<sub>0</sub> = m (y - y<sub>0</sub>). 
+</var> 
+</p><p>To be
+able to see the circle, we require that the eyepoint <var>(0, 0, 0)</var> is not on the plane of
+the circle, which means <var>z<sub>0</sub></var> does not equal <var>m y<sub>0</sub> </var>. The
+circle also lies on the sphere of radius <var>r </var>centered at <var>(x<sub>0</sub>,
+y<sub>0</sub>, z<sub>0</sub>)</var>, which has the equation 
+</p><p>(4.)
+</p><p align="CENTER"><var>(x - x<sub>0</sub>)<sup>2</sup> + (y -
+y<sub>0</sub>)<sup>2</sup> + (z - z<sub>0</sub>)<sup>2</sup> = r<sup>2</sup>. 
+</var> </p><p>The
+circle is the collection of points satisfying both (3.) and (4.) These are projected using (2.) to
+the drawing plane. By substituting (3.) into (4.), 
+</p><p>(5.)
+</p><p align="CENTER"><var>(x - x<sub>0</sub>)<sup>2</sup> + (1 + m<sup>2</sup>)(y -
+y<sub>0</sub>)<sup>2</sup> = r<sup>2</sup>. 
+</var> 
+</p><p>We are trying to see how these equations
+relate <var>u</var> to <var>v</var>. Using (2.), we substitute in the equations (3.) and (5.) 
+</p><p align="CENTER"><var>v y - z<sub>0</sub> = m (y - y<sub>0</sub>) 
+</var> 
+</p><p>so 
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/p24.gif" align="MIDDLE" width="326" height="147" alt="View of perspective.">
+</p><p>
+Substituting into equation (5.) and multiplying by <var>(v - m)<sup>2</sup></var> yields 
+</p><p align="CENTER"><var>
+[u(z<sub>0</sub> - m y<sub>0</sub>) - v x<sub>0</sub> + m
+x<sub>0</sub>]<sup>2</sup> + (1 + m<sup>2</sup>)(z<sub>0</sub> - v y<sub>0</sub>)<sup>2</sup> =
+r<sup>2</sup>(v - m)<sup>2</sup>. </var>
+</p><p>
+Multiplying out and collecting factors of <var>u<sup>2</sup></var>, <var>uv</var>, <var>...
+</var>yields 
+</p><p align="CENTER"><var>(z<sub>0</sub> - m
+y<sub>0</sub>)<sup>2</sup>u<sup>2</sup> + 2 x<sub>0</sub>(z<sub>0</sub> - m y<sub>0</sub>)u v +
+[x<sub>0</sub><sup>2</sup> + (1 + m<sup>2</sup>)y<sub>0</sub><sup>2</sup> -
+r<sup>2</sup>]v<sup>2</sup> +<br> 2 m x<sub>0</sub>(z<sub>0</sub> - m y<sub>0</sub>)u + 2[m
+r<sup>2</sup> - m x<sub>0</sub><sup>2</sup> - (1 + m<sup>2</sup>)y<sub>0</sub> z<sub>0</sub>]v +
+<br> [m<sup>2</sup> x<sub>0</sub><sup>2</sup> + (1 +
+m<sup>2</sup>)z<sub>0</sub><sup>2</sup>-m<sup>2</sup>r<sup>2</sup>] = 0. 
+</var> 
+</p><p>Thus
+<var>(u,v)</var> satisfy a quadratic equation in the plane. The discriminant is 
+</p><p align="CENTER"><var>D= (z<sub>0</sub> - m y<sub>0</sub>)<sup>2</sup>[x<sub>0</sub><sup>2</sup> + (1 +
+m<sup>2</sup>)y<sub>0</sub><sup>2</sup> - r<sup>2</sup>] - (z<sub>0</sub> - m
+y<sub>0</sub>)<sup>2</sup>x<sub>0</sub><sup>2</sup><br> = (z<sub>0</sub> - m
+y<sub>0</sub>)<sup>2</sup>[(1 + m<sup>2</sup>)y<sub>0</sub><sup>2</sup> - r<sup>2</sup>]. 
+</var> 
+</p><p>
+Since the eyepoint is not on the plane of the circle <var>z<sub>0</sub> - m y<sub>0</sub> &gt; 0.</var>
+ Since the circle is in front of the <var>y=0</var> plane, the point
+<var>(x<sub>0</sub>, 0, z<sub>0</sub> + m y<sub>0</sub>)</var> which is both in the <var>y=0</var>
+plane and on the circle plane is can't be on the circle, in fact it is farther from the center than
+any point of the circle, hence 
+</p><p align="CENTER"><var>(1 +
+m<sup>2</sup>)y<sub>0</sub><sup>2</sup> - r<sup>2</sup> 0.</var> 
+</p><p>
+Thus <var>D &gt; 0</var> and the locus is an ellipse. 
+</p><p align="CENTER"><a name="PerspCirc"><img src="./Mathematics of Perspective Drawing_files/Alberti.GIF" align="MIDDLE" width="477" height="568" alt="Perspective view of circle."></a>
+</p><p align="CENTER">Perspective view of the circle
+</p><p>
+
+</p><p>Here is a diagram from Alberti's treatise. The square that surrounds the circle projects to a
+trapezoid. The circle itself projects to an ellipse which is tangent to all four sides of the
+trapezoid. Observe that the left and right endpoints of the axes of the ellipse where the ellipse
+is widest occur below the tangency points. But be careful when drawing the ellipse which is not
+centered on the eyepoint to centerpoint line! 
+</p><p> 
+</p><h2><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="ProjGeom">What is Projective Geometry?</a> </h2>
+
+<p>The original impetus to projective geometry came from perspective drawing. Alberti's textbook
+<i>Della Pittura</i> (1435) formulated new questions that tempted mathematicians to study new
+questions beyond those addressed by the Greeks. If two artists make perspective drawings of the
+same object, their drawings will not be the same, for example because different parts of the object
+will be closer to each of the the two artists. But what properties of the drawings remain the same?
+(<a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#AlbertiQ">Diagram of Alberti's question.</a>) 
+</p><p>
+
+</p><p>The perspective projection, which takes points <var>X</var> of the object which are in three
+space and plots them as points <var>P</var> on the drawing plane. Let us write this 
+</p><p align="CENTER"><var>P=f(X). 
+</var> 
+</p><p>
+It has the property that points are mapped to points and
+lines to lines. However, parallel lines in three space which are not parallel to the drawing plane
+must be drawn to converge at their vanishing points. Thus the correspondence between lines and
+points in three space and lines and points on the drawing isn't perfect. Thus if
+<var>L<sub>1</sub></var> and <var>L<sub>2</sub></var> are parallel lines in three space then
+<var>f(L<sub>1</sub>)</var> and <var>f(L<sub>1</sub>)</var> are lines which intersect at
+<var>V</var> their vanishing point. However <var>L<sub>1</sub></var> and <var>L<sub>2</sub></var>
+don't intersect at any point. In the diagram, lines <var>AB, CD</var> and <var>E'V'</var> are
+parallel. Their projections <var>A'B', C'D'</var> intersect at a point <var>V'</var> which is
+called the <i>vanishing point</i> since it has no corresponding point in three space. 
+</p><p>
+
+</p><p>The solution was proposed by Girard Desargues (1591-1661) a self educated man who worked as an
+architect after leaving the army. His opus with the ponderous name, <i>Broullion project d`une atteinte
+aux événemens des renconteres du cône avec un plan,</i> (1693) which describes
+projective methods in geometry went unnoticed. Jean-Victor Poncelet (1788-1867), an engineer in
+Napoleon's army reworked the theory in <i>Traité des proprietiés projectives des
+Figures</i>(1822) while a prisoner of war in Russia in 1813 [KF]. This elevated Desargues work in projective
+geometry to one of the success stories of synthetic geometry, whose merits versus analytic geometry
+were being debated at the time.
+ We sketch two theorems from projective geometry. For a more rigorous treatment, the reader should
+consult any of a number of texts, such as O'Hara &amp; Ward [OW] or Wylie [WC]. </p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/ParVP.GIF" width="430" height="363" alt="Drawing of how parallel lines meet at vanishing point."> </p><p>
+
+</p><p>To complete the correspondence, Desargues introduced ideal points, called <i>points at
+infinity</i> one for each set of parallel lines. The points at infinity don't contradict any
+axioms. They function as a convenience since now every pair of lines intersects at one point, the
+case of parallel lines does not have to be treated as an exceptional case. The following is now
+called <i>Desargues' Theorem of Homologous Triangles.</i> 
+
+</p><p> 
+<em><b>Theorem.</b> Suppose
+there is a point <var>O</var> and triangles <var>ABC</var> and
+<var>A'B'C'</var> in the plane or three space. If they are projectively related from the
+point <var>O</var>, that is, the triples <var>{O, A, A'}</var>, <var>{O, B,
+B'}</var> and <var>{O, C, C'}</var> are all collinear. Then the points of
+intersections of the corresponding sides <var>AB</var> and <var>A'B'</var>,
+<var>AC</var> and <var>A'C'</var> and <var>BC</var> and
+<var>B'C'</var> (or their prolongations) are collinear. Conversely, if the three pairs of
+corresponding sides meet in three points which lie on one straight line, then the lines joining
+corresponding vertices meet at one point (are projectively related.)</em> 
+</p><p>
+
+</p><p>The proof is easier for the case that the triangles are not coplanar. See Dörrie [HD] or
+Meserve [MB] for proofs. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/Desargue.GIF" width="323" height="348" alt="Diagram of Desargues&#39; Theorem.">
+</p><p>
+
+</p><p align="CENTER">Diagram of Desargues' Theorem of Homologous Triangles.
+</p><p>
+
+</p><p>To see how we may use projective geometry directly to argue that the perspective image of a
+circle is an ellipse, we use a theorem due to Blaise Pascal (1623-1662). Pascal, who was urged to
+investigate the relationship between projectivities and conics by Desargues, published his <i>Essai
+sur les Coniques</i> when he was sixteen. Although he didn't prove the converse part, the theorem
+is known as <i>Pascal's Hexagon Theorem.</i> 
+
+</p><p> <em> <b>Theorem.</b> Let a hexagon be
+inscribed in a (nonsingular point-) conic. Then the three points of intersection of pairs of
+opposite sides are collinear. Conversely, if the opposite sides of a hexagon, (of which no three
+vertices lie on a straight line) intersect on a straight line, the six vertices lie on a
+non-singular point-conic.
+</em> 
+</p><p align="CENTER">
+<img src="./Mathematics of Perspective Drawing_files/Pascal.gif" width="369" height="253" alt="Diagram for Pascal&#39;s Hexagon Theorem">
+</p><p>
+
+</p><p align="CENTER">Diagram for Pascal's Hexagon Theorem.
+</p><p>
+Pascal's Theorem may be used to deduce that the perspective image of a circle is an ellipse.
+Thus if <var>c</var> is the circle and <var>f(c)</var> is its image in a perspective drawing
+relative to the eyepoint <var>O</var>, then we have to show that if any six points <var>A, B, C, D,
+E, F</var> are chosen on <var>f(c)</var> so that no three of them lie on a straight line then the
+pairs of opposite sides intersect in collinear points. Then by the converse of Pascal's Theorem,
+the six points lie on a nonsingular point-conic. But since five points determine a conic, the sixth
+point which may be any general point of <var>f(c)</var> must be on the same on the conic. It
+follows that no matter which six points are chosen, they lie on the same conic, thus
+<var>f(C)</var> is (part of) a single point-conic. One argues that <var>f(c)</var> is bounded and
+nondegenerate thus can only be the ellipse. But the six points are in perspective correspondence to
+points <var>A', B', C', D', E', F'</var> on <var>c</var> which is a circle, hence a point-conic.
+Therefore, by Pascal's Theorem, the pairs of opposite sides (<var>A'B'</var> and <var>E'D'</var>),
+(<var>B'C'</var> and <var>F'E'</var>), and (<var>C'D'</var> and <var>A'F'</var>) intersect at
+points <var>P', Q', R'</var> respectively, which are collinear in the plane of <var>c</var>. Their
+perspective images <var>P, Q, R</var> in the plane of <var>F(c)</var> must also be collinear since
+the perspective image of a line not containing <var>O</var> is a line. Moreover the planes
+<var>OA'B', OE'D'</var> contain the edges <var>AB, ED</var>, resp., since they are perspective to
+each other, and thus the planes intersect along the line <var>OP'P</var>. In other words, the point
+<var>P</var> is the intersection of the edges <var>AB</var> and <var>ED</var>. Similarly
+<var>Q</var> is the intersection of the edges <var>BC</var> and <var>FE</var> and <var>R</var> is
+the intersection of the edges <var>CD</var> and <var>BF</var>. Thus <var>P, Q, R</var> are
+collinear and we are done. 
+</p><p>
+
+</p><p>An analytic version is in the previous section <a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#circle">Analytic Treatment of the
+Perspective View of a Circle.</a> 
+</p><p> 
+</p><h2><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="CompGrap"> Computer Graphics.</a> </h2>
+
+<p>Without going very deep into computer science complications, we explain something about the
+mathematics behind computer drawing. Computer science issues are treated, <i>e.g.</i> in [PP]. One
+of the ways that a computer renders three-dimensional object is to build up the image from little
+constituent pieces. The object is regarded as a collection of polygons. The visual position of each
+little piece is computed and the polygons are drawn one polygon at a time. The computer screen is
+given a Cartesian (horizontal and vertical axis) coordinate system and the polygon is drawn
+specifying the position of each <var>P=(u,v)</var> of its vertices. For example, as the three
+triangles red <var>(0,0),(4,-1),(1,.5)</var>, green <var>(4,2),(1,-.5),(4,1)</var> and
+blue<var>(4,-2),(3,1.5),(3,-1.5)</var> are drawn, each one covers the previous ones. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/Trians.gif" width="467" height="219" alt="Triangle plotting animation.">
+</p><p>
+
+</p><p>If for example, we wish to draw the front elevation of the an object in space consisting of the
+three triangles <var>[(0,1,0),(4,0,-1),(1,1,.5)]</var>, <var>[(4,1,2),(1,0,-.5),(4,1,1)]</var> and
+<var>[(4,1,-2),(3,0,1.5),(3,1,-1.5)]</var> viewed toward the <var>+y</var>-axis, we have to draw
+the triangles as before, because the projection is given by 
+</p><p> 
+</p><p align="CENTER"><var>F(x, y,z )=(x, z).</var>
+</p><p> 
+ </p><p>
+This would result in an incorrect
+picture because one of tips of each triangle is closer to the viewer than some one of the other
+triangles. <i>e.g.</i>, the base of the first triangle <var>(0,1,0),(1,1,.5)</var> at
+<var>y=1</var> is farther from the viewer than the remaining vertex <var>(4,0,-1)</var> at
+<var>y=0</var>. Another source of error would be if polygons in the object actually intersected. To
+correctly render the front elevation, the triangles have to be subdivided further into parts and
+the parts in front have to be drawn on top of parts in back. 
+</p><p>
+
+</p><p align="CENTER">
+<img src="./Mathematics of Perspective Drawing_files/Overlap.GIF" width="471" height="219" alt="Overlapping triangles.">
+</p><p>
+
+</p><p>The most fundamental way to depict depth in a picture is overlapping closer objects over farther
+ones. In general it is quite involved to decide if some part of the object can be seen or not. The
+simple way to deal with this is to draw all polygons of the object back to front. Some of the
+polygons which are in back of the object eventually get completely covered up. This is called the
+<i>painter's algorithm.</i> The way it works in our MAPLE program, first we compute the distances
+of each point to the eye. Then a typical distance is given for each polygon, which in our case is
+the distance to the nearest point. Then the polygons are sorted according to their typical
+distances, and are rendered back to front. Our program does not try to account for complicated
+overlaps or intersections so will sometimes render objects incorrectly. To illustrate the painter's
+algorithm, suppose we render a cube. The faces are drawn back to front, depending on the distance
+of each side to the viewer. In the example, the sky being farthest is drawn first, followed by the
+earth, the back face, the base, the sides, the top and finally the front, eventually covering up
+all but two sides. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/Painter.gif" width="301" height="300" alt="Animation of painter&#39;s algorithm.">
+</p><p>
+
+</p><p>Another way of rendering a three-dimensional object is called <i>ray tracing.</i> In ray
+tracing, the computer follows light rays back from the eye to a point on the object from where it
+figures out how intense the light is and what its color is by following back the rays which
+illuminate that point. This can continue for several stages. At each stage the computation accounts
+for surface properties like shine and color and body properties such as refractive index and
+transmittivity. An example of ray tracing is a rendering of the same house made by the program
+
+<a href="http://www.povray.org/">
+<i>POV-Ray<sup>TM</sup></i></a><i> (Persistence of Vision<sup>TM</sup> Ray-Tracer Version 3.1.)</i> We have
+specified that the body be made of gray glass and be positioned on a chessboard. 
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/POVhou.JPG" width="416" height="312" alt="House drawn using ray-tracer POV-Ray.">
+</p><p>
+
+</p><p>To get a sense of what is state of the art in ray-tracing, visit Steven Parker's website <a href="http://www.cs.utah.edu/vissim/papers/rtrt/">Interactive Ray Tracing -- MPEG demo</a> at the
+Scientific Computing and Imaging Institute <a href="http://www.sci.utah.edu/index.html">
+<tt>http://www.sci.utah.edu/index.html</tt></a> in the Graphics and
+Visualization group <a href="http://www.cs.utah.edu/research/areas/graphics/">
+<tt>http://www.cs.utah.edu/research/areas/graphics/</tt></a> in the
+School of Computing at the University of Utah. 
+</p><p> 
+
+</p><h2><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="Probs"> Problems.</a> 
+</h2>
+ 
+
+
+<ol>
+
+
+
+<li>Design an object to test MAPLE's <var>3d</var> capability. Be sure that your object doesn't
+have any symmetries, so that you can tell front from back, left handed from right handed. Explore
+the projection for differing values of <tt>projection</tt>. (We had <tt>projection=0.7.</tt> in the
+runs.) 
+</li><li>A right circular cone <var>C</var> whose center is the origin and whose axis is
+the <var>z</var>-axis satisfies the equation 
+<p align="CENTER"><var>F(x,y,z) = x<sup>2</sup>
++ y<sup>2</sup> - c<sup>2</sup> z<sup>2</sup> = 0 
+</var> </p><p>where <var>c0</var> is constant.
+Suppose <var>T:<b>E</b><sup>3</sup> --&gt; <b>E</b><sup>3</sup></var> is a rigid motion, and
+<var>T<sup>-1</sup></var> is the inverse motion. Show that the equation of the general right
+circular cone <var>T(C)</var> is 
+</p><p align="CENTER"><var>F(T<sup>-1</sup>(X))=0. 
+</var>
+</p><p>where <var>X = (x, y, z)</var>. Using this fact, show that the points of the intersection of the
+cone <var>T(C)</var> with the plane <var>z = 0</var> also satisfy equation (1.) 
+</p><p> 
+</p></li><li>Our rigid
+motions were constructed by composing rotations around the vertical axis and horizontal axes. The
+resulting motion maps the vertical axis to a vertical line. More generally, a rotation may occur
+around any axis. Find an expression for the rotation of an angle <var>µ</var> around an
+arbitrary unit vector <var>(u<sub>1</sub>, u<sub>2</sub>, u<sub>3</sub>)</var>.
+</li><li>A
+projection whose rays are perpendicular to the image plane is called an <i>orthogonal
+projection.</i> It has the property that a sphere projects to the round circle. The general
+projection does not have this property. Suppose a test cube with side length <var>a</var> is
+projected by orthogonal projection. Consider the images of three sides incident to a corner of the
+cube and denote their lengths <var>a<sub>1</sub></var>, <var>a<sub>2</sub></var> and
+<var>a<sub>3</sub></var> and let <var>µ<sub>1</sub></var>,
+<var>µ<sub>2</sub></var> and <var>µ<sub>3</sub></var> be the angles as shown on
+the figure. Show that [BP p. 35] 
+<p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/p29.gif" align="MIDDLE" width="466" height="40" alt="Equation relating angles and lengths in isometric projection.">
+</p><p>
+
+</p><p align="CENTER"><img src="./Mathematics of Perspective Drawing_files/Orthcube.GIF" align="MIDDLE" width="127" height="124" alt="Cube in general isometric view.">
+</p><p> 
+</p></li><li>This problem requires a little calculus. Show that if
+<var>(x(t), y(t), z(t)) = (a t + x<sub>0</sub>, b t + y<sub>0</sub>, c t + z<sub>0</sub>)</var> are
+points on a line that recede from the drawing plane (<var>b 0</var>) as <var>t</var> goes to
+infinity then the perspective transformation <var>F<sub>persp.</sub>(x(t), y(t), z(t))</var>
+converges to a point depending on the direction of the line <var>(a, b, c)</var> and not on which
+line (not on <var>(x<sub>0</sub>,y<sub>0</sub>,z<sub>0</sub>)</var>.) The limit point is the
+vanishing point for all parallel lines going this direction and it corresponds to the intersection
+of the line <var>(a t, b t, c t)</var> through the eyepoint and the drawing plane. 
+</li><li>For
+one point perspective, explain why the measuring points are <var>45°</var> as in the
+"perspective view of the circle" figure. 
+</li><li>If a perspective drawing is made of a circle on
+the floor, which is not centered on the eyepoint-centerpoint line, which direction will it tip? Can
+you find a graphic construction for the major and minor axes? [Answer [EM], p. 93] 
+</li></ol> 
+
+ 
+
+
+
+<h2><a href="http://www.math.utah.edu/~treiberg/Perspect/Perspect.htm#top"><img src="./Mathematics of Perspective Drawing_files/TopButton.GIF" align="MIDDLE" border="0" width="129" height="49" alt="Back to Top"></a><a name="refs"> References &amp;
+Links.</a> </h2> 
+<dl> 
+<dt>BP</dt> 
+<dd>W. Boehm &amp; H. Prautsch, Geometric Concepts for Geometric
+Design, A. K. Peters Ltd., Wellesley, 1994. </dd> 
+<dt>BC </dt> 
+<dd>C. Boyer, A history of
+mathematics, Princeton University Press, Princeton, 1985. </dd> 
+<dt>CA </dt> 
+<dd>A. Cole,
+Perspective: A visual guide to the theory and techniques from the Renaissance to Pop Art, Dorling
+Kindersley, Inc., New York, 1992. </dd> 
+<dt>DJ </dt> 
+<dd>J. Dauber, Mc Murray University, The art
+of Renaissance science. <a href="http://www.mcm.edu/academic/galileo/ars/arshtml/arch1.html">
+<tt>http://www.mcm.edu/academic/galileo/ars/arshtml/arch1.html</tt></a></dd> 
+<dt>DH </dt> 
+<dd>H. Dörrie, Triumph der Mathematik: Hundert berühmte Probleme aus zwei Jahrtausenden
+mathematischer Kultur, Physica-Verlag, Würzburg, 1958; Transl. of 5th ed. <i>100</i> great
+problems of elementary mathematics, Dover Publications Inc., New York, 1965.</dd>
+
+
+<dt>EB </dt> 
+<dd>B.
+Edwards, Drawing on the right side of the brain, 1989, Jeremy P. Tarcher, Inc., Los Angeles. </dd>
+
+
+<dt>EM </dt> 
+<dd>M. Emrick, Computer drawing, Indianapolis Museum of Art. <a href="http://www.ima-art.org/education/schoolprograms/mathart/intro.html">
+<tt>http://www.ima-art.org/education/schoolprograms/mathart/intro.html</tt></a>
+</dd> 
+<dt>EM </dt> 
+<dd>H. Etter &amp; M. Malmstrom, Perspective for painters, Watson Guptill
+Publications, New York, 1990. </dd> 
+<dt>FP </dt> 
+<dd>I. D. Faux &amp; M. J. Pratt, Computational
+geometry for design and manufacture, Ellis Horwood Ltd., Chichester, 1979, Mathematics and its
+applications. </dd> 
+<dt>GA</dt> 
+<dd>A. Gray, Modern differential geometry of curves and surfaces,
+CRC Press, Boca Raton, 1993. </dd> 
+<dt>IW </dt> 
+<dd>W. Ivins, Jr., Art &amp; geometry: a study of
+space intuitions, Harvard University Press, 1946; Repub. Dover, New York, 1964.</dd> 
+<dt>GG</dt>
+<dd>G. Gruner, Concepts in physics, notions in art, UCLA.
+<a href="http://www.physics.ucla.edu/class/85HC_Gruner/"><tt>http://www.physics.ucla.edu/class/85HC_Gruner/</tt></a></dd>
+<dt>KF</dt> 
+<dd>F. Klein, Elementarmathematik vom hoheren Standpunkte Bd. 2: Geometrie, Macmillan, 
+New York, 1940; English transl of 3rd ed., Geometry: elementary mathematics from an advanced 
+standpoint, Charles A. Noble, New York 1939; Repub. Dover, New York, 1948.</dd> 
+<dt>KM1</dt>
+<dd>M. Kline, Mathematics in western culture, Oxford University Press Inc., 1953, New York. </dd> 
+<dt>KM2</dt>
+<dd>M. Kline, Mathematical thought from ancient to modern times, Oxford University Press Inc, 1972,
+232, New York. </dd> 
+<dt>KJ</dt> 
+<dd>J. Krikke, A Chinese perspective for cyberspace?,
+International Institute for Asian Studies Newsletter, 9, Summer 1996,<a href="http://iias.leidenuniv.nl/iiasn/iiasn9/eastasia/krikke.html">
+<tt>http://iias.leidenuniv.nl/iiasn/iiasn9/eastasia/krikke.html</tt></a></dd> 
+<dt>MS </dt> 
+<dd>S. Machlis, Drawing III, University of Idaho. <a href="http://www.art.uidaho.edu/drawing/111/lectures/lecture04.html">
+<tt>http://www.art.uidaho.edu/drawing/111/lectures/lecture04.html</tt></a>
+</dd> 
+<dt>MB </dt> 
+<dd>B. Meserve, Fundamental concepts of geometry,
+Addison-Wesley, Reading, 1959; Repub. Dover, Mineola, 1983. </dd> 
+<dt>OJ</dt> 
+<dd>J. Oprea, Differential
+geometry and its applications, Prentice-Hall Inc., Upper Saddle River, 1997. </dd> 
+<dt>OW</dt>
+
+<dd>C. W. O'Hara &amp; D. R. Ward, An introduction to projective geometry, Oxford University Press,
+London, 1946. </dd> 
+<dt>PR</dt> 
+<dd>Robert Palais, Review of fundamental trigonometry formulas and
+the geometry of complex numbers and the dot product for calculus and multi-variable calculus, <a href="http://www.math.utah.edu/~cherk/ccli/bob/Rotation/Rotation.html">
+<tt>http://www.math.utah.edu/~cherk/ccli/bob/Rotation/Rotation.html</tt></a></dd> 
+<dt>PP </dt> 
+<dd>M. Penna &amp; R. Patterson, Projective geometry and its
+applications to computer graphics, Prentice Hall, Englewood cliffs, 1986. </dd> 
+<dt>PD</dt> 
+<dd>D. Pedoe, Geometry and the visual arts, St. Martin's Press Inc., NY 1976; Repub. Dover, New York, 1983.</dd> 
+<dt>RV </dt> 
+<dd>V.
+Rovenski, Geometry of curves and surfaces with MAPLE, 2000, Birkhäser, Boston. </dd> 
+<dt>SR
+</dt> 
+<dt>SC</dt>
+<dd> C. Séquin, Art, math &amp; Computers--new ways of creating pleasing shapes, Educator's TECH Exchange, Jan. 1996.,
+<a href="http://http.cs.berkeley.edu/~sequin/edtech/edtech.html">http://http.cs.berkeley.edu/~sequin/edtech/edtech.html.</a></dd>
+<dd>R. Smith, An introduction to perspective, Dorling Kindersley Ltd., -1st American ed. (The
+DK Art School), London, 1995. </dd> 
+<dt>TA </dt> 
+<dd>A. Treibergs, The geometry of perspective
+drawing: lecture notes for the talk presented to the University of Utah High School program, June
+26, 2001. </dd> 
+<dt>WC</dt> 
+<dd>C. R. Wylie, Jr., Introduction to projective geometry, McGraw-Hill
+Inc., New York, 1970. </dd> 
+<dt>XX</dt> 
+<dd>Perspektiva conference links. <a href="http://www.c3.hu/perspektiva/dokumentumokframeen.html">
+<tt>http://www.c3.hu/perspektiva/dokumentumokframeen.html</tt></a> </dd>
+</dl> 
+<p>
+<font color="darkkhaki"><i>Last updated: 07 / 24 / 01</i></font>
+
+
+</p></body></html>
